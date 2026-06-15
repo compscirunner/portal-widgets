@@ -1,0 +1,9 @@
+{
+  "name": "Portal Widgets",
+  "description": "A Chumby-style widget host — a fullscreen WebView carousel that live-discovers and rotates web widgets tagged 'meta-portal-widget' on GitHub. Add and configure widgets on-device. No Google services.",
+  "package": "com.portal.widgets",
+  "category": "tools",
+  "models": ["portal-plus", "portal-2019"],
+  "screenshots": ["docs/loop.png", "docs/gallery.png"],
+  "minSdk": 24
+}
