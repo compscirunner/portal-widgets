@@ -2,12 +2,14 @@ package com.portal.widgets;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -24,8 +26,8 @@ import java.util.List;
  * {@link WidgetRegistry} and templated into the load URL — no native bridge is
  * exposed to web content.
  *
- * A long-press in the top-left corner opens the gallery (the way back from a
- * fullscreen widget).
+ * A long-press in the bottom-right corner opens the gallery (the way back from a
+ * fullscreen widget); a brief tappable hint appears there at launch.
  */
 public class MainActivity extends Activity {
 
@@ -44,13 +46,34 @@ public class MainActivity extends Activity {
         root.addView(carousel, new FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
 
-        // Invisible top-left corner: long-press summons the gallery (widgets eat
-        // normal touches, so this sits above the carousel).
+        // Invisible bottom-right corner: long-press summons the gallery any time
+        // (widgets eat normal touches, so this sits above the carousel).
         View corner = new View(this);
-        corner.setBackgroundColor(Color.TRANSPARENT);
-        corner.setLayoutParams(new FrameLayout.LayoutParams(dp(72), dp(72), Gravity.TOP | Gravity.START));
+        corner.setLayoutParams(new FrameLayout.LayoutParams(dp(72), dp(72), Gravity.BOTTOM | Gravity.END));
         corner.setOnLongClickListener(v -> { openGallery(); return true; });
         root.addView(corner);
+
+        // On launch, a brief tappable "Gallery" hint at that corner, then it fades away.
+        TextView hint = new TextView(this);
+        hint.setText("⊞  Gallery");
+        hint.setTextColor(0xFFFFFFFF);
+        hint.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+        hint.setPadding(dp(26), dp(16), dp(26), dp(16));
+        GradientDrawable hb = new GradientDrawable();
+        hb.setColor(0xCC1B2230);
+        hb.setStroke(dp(2), 0xFF36C6D6);
+        hb.setCornerRadius(dp(30));
+        hint.setBackground(hb);
+        FrameLayout.LayoutParams hlp = new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT,
+                Gravity.BOTTOM | Gravity.END);
+        hlp.setMargins(0, 0, dp(18), dp(18));
+        hint.setLayoutParams(hlp);
+        hint.setOnClickListener(v -> openGallery());
+        root.addView(hint);
+        // visible ~3.5s, fade out over 0.8s, then remove from the layout
+        hint.animate().alpha(0f).setStartDelay(3500).setDuration(800)
+                .withEndAction(() -> hint.setVisibility(View.GONE)).start();
 
         setContentView(root);
     }
