@@ -23,3 +23,8 @@ Browse widgets and "make your own" (no coding — hand the template to an AI ass
 ```
 Pure platform + a hardened WebView — no GMS, no extra dependencies. `minSdk 24`
 (covers the Gen-1 Portal/Portal+ at API 28 and the 2019/2021 models at API 29).
+
+## Credits
+Gallery hero image (`docs/word-clock.png`) is the **Word Clock** widget by
+[GodricTM](https://github.com/GodricTM/word-clock-widget) — a community
+`meta-portal-widget`. Thanks!

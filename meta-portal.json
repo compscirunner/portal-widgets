@@ -4,6 +4,6 @@
   "package": "com.portal.widgets",
   "category": "tools",
   "models": ["portal-plus", "portal-2019"],
-  "screenshots": ["docs/loop.png", "docs/gallery.png"],
+  "screenshots": ["docs/word-clock.png", "docs/loop.png", "docs/gallery.png"],
   "minSdk": 24
 }
